@@ -6,6 +6,11 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
+    steps:
+      - run:
+          name: Pull openjdk11
+          command: |
+            echo 'My dockerhub username: $DOCKERHUB_USERNAME'
   Run-Script:
     docker:
       - image: cimg/base:2021.04

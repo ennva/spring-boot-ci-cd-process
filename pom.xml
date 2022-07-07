@@ -36,7 +36,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -110,6 +110,28 @@
 									<tag>latest</tag>
 								</tags>
 							</to>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>deploy-heroku</id>
+			<properties>
+				<maven.deploy.skip>true</maven.deploy.skip>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.heroku.sdk</groupId>
+						<artifactId>heroku-maven-plugin</artifactId>
+						<version>3.0.2</version>
+						<configuration>
+							<appName>spring-boot-ci-cd-process</appName>
+							<processTypes>
+								<web>java $JAVA_OPTS -jar -Dserver.port=$PORT
+									target/${project.build.finalName}.jar</web>
+							</processTypes>
 						</configuration>
 					</plugin>
 				</plugins>

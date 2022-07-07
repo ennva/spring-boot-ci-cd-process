@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   Before-Install:
     docker:
-      - image: cimg/openjdk:11-jre-slim-sid
+      - image: cimg/openjdk:11.0.1
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
@@ -14,7 +14,7 @@ jobs:
             echo $DOCKERHUB_USERNAME'
   Run-Script:
     docker:
-      - image: cimg/openjdk:11-jre-slim-sid
+      - image: cimg/openjdk:11.0.1
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD

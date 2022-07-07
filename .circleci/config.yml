@@ -23,6 +23,7 @@ jobs:
       - run:
           name: Running maven script
           command: |
+            chmod +x ./mvnw
             ./mvnw clean install
             ./mvnw deploy jib:build -P deploy-docker
 workflows:

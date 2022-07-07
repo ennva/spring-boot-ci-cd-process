@@ -15,4 +15,11 @@ jobs:
           name: Running maven script
           command: |
             ./mvnw clean install
-            ./mvnw deploy jib:build -P deploy-docker 
+            ./mvnw deploy jib:build -P deploy-docker
+workflows:
+  Spring-Boot-Workflow:
+    jobs:
+      - Before-Install
+      - Run-Script:
+          requires:
+            - Before-Install

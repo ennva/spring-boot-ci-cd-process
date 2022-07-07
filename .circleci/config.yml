@@ -25,7 +25,7 @@ jobs:
           command: |
             chmod +x ./mvnw
             ./mvnw clean install
-            ./mvnw deploy jib:build jib:build -Djib.to.auth.username=$DOCKERHUB_USERNAME -Djib.to.auth.password=$DOCKERHUB_PASSWORD -P deploy-docker
+            ./mvnw deploy jib:build -Djib.to.auth.username=$DOCKERHUB_USERNAME -Djib.to.auth.password=$DOCKERHUB_PASSWORD -P deploy-docker
 workflows:
   Spring-Boot-Workflow:
     jobs:

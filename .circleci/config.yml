@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   Before-Install:
     docker:
-      - image: openjdk:11-jre-slim-sid
+      - image: cimg/openjdk:11-jre-slim-sid
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
@@ -10,10 +10,14 @@ jobs:
       - run:
           name: Pull openjdk11
           command: |
-            echo 'My dockerhub username: $DOCKERHUB_USERNAME'
+            echo 'My dockerhub username is:'
+            echo $DOCKERHUB_USERNAME'
   Run-Script:
     docker:
-      - image: cimg/base:2021.04
+      - image: cimg/openjdk:11-jre-slim-sid
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:

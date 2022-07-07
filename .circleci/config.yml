@@ -11,7 +11,7 @@ jobs:
           name: Pull openjdk11
           command: |
             echo 'My dockerhub username is:'
-            echo $DOCKERHUB_USERNAME'
+            echo $DOCKERHUB_USERNAME
   Run-Script:
     docker:
       - image: cimg/openjdk:11.0.1

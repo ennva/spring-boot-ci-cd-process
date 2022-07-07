@@ -24,8 +24,23 @@ jobs:
           name: Running maven script
           command: |
             chmod +x ./mvnw
-            ./mvnw clean install
+            ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install
             ./mvnw deploy jib:build -Djib.to.auth.username=$DOCKERHUB_USERNAME -Djib.to.auth.password=$DOCKERHUB_PASSWORD -P deploy-docker
+  Send-Tests-Report:
+    docker:
+      - image: cimg/openjdk:11.0.11-browsers
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - browser-tools/install-browser-tools
+      - run:
+          name: Sending tests report
+          command:
+            mvn test
+      - store_artifacts:
+          path: target
 workflows:
   Spring-Boot-Workflow:
     jobs:
@@ -33,3 +48,6 @@ workflows:
       - Run-Script:
           requires:
             - Before-Install
+      - Send-Tests-Report:
+          requires:
+            - Run-Script

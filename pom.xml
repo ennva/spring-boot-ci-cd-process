@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.ennva</groupId>
 	<artifactId>cicd-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<!-- packaging>war</packaging--> <!-- uncomment to specify package other than jar -->
+	<!-- packaging>war</packaging --> <!-- uncomment to specify package other than jar -->
 	<name>cicd-demo</name>
 	<description>Demo project for Spring Boot in ci-cd process</description>
 	<properties>
@@ -28,15 +29,17 @@
 		</dependency>
 
 		<!-- To specify if packaging is done in war other than jar -->
-		<!-- dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency-->
+		<!-- dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> 
+			<scope>provided</scope> </dependency -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -46,33 +49,71 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<dataFile>target/jacoco.exec</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>target/my-reports</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<systemPropertyVariables>
+						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<profiles>
 		<profile>
-		    <id>deploy-docker</id>
-		    <properties>
-		        <maven.deploy.skip>true</maven.deploy.skip>
-		    </properties>
-		    <build>
-		        <plugins>
-		            <plugin>
-		                <groupId>com.google.cloud.tools</groupId>
-		                <artifactId>jib-maven-plugin</artifactId>
-		                <version>2.2.0</version>
-		                <configuration>
-		                    <to>
-		                        <image>djass/spring-boot-ci-cd-process</image>
-		                        <tags>
-		                            <tag>${project.version}</tag>
-		                            <tag>latest</tag>
-		                        </tags>
-		                    </to>
-		                </configuration>
-		            </plugin>
-		        </plugins>
-		    </build>
+			<id>deploy-docker</id>
+			<properties>
+				<maven.deploy.skip>true</maven.deploy.skip>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<version>2.2.0</version>
+						<configuration>
+							<to>
+								<image>djass/spring-boot-ci-cd-process</image>
+								<tags>
+									<tag>${project.version}</tag>
+									<tag>latest</tag>
+								</tags>
+							</to>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 

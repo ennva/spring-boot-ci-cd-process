@@ -55,7 +55,7 @@
 		</dependency>
 		<!-- Starting with Spring Boot 2.4, JUnit 5’s vintage engine has been removed from spring-boot-starter-test. 
 			If we still want to write tests using JUnit 4, we need to add the following Maven dependency -->
-
+		<!--
 		<dependency>
 		    <groupId>org.junit.vintage</groupId>
 		    <artifactId>junit-vintage-engine</artifactId>
@@ -67,7 +67,7 @@
 		        </exclusion>
 		    </exclusions>
 		</dependency>
-
+		 -->
 	</dependencies>
 
 	<build>
